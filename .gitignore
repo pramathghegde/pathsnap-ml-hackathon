@@ -95,6 +95,7 @@ experiments/logs/*
 !experiments/logs/.gitkeep
 experiments/results/*
 !experiments/results/.gitkeep
+!experiments/results/*.csv
 experiments/optimization/*
 !experiments/optimization/.gitkeep
 *.log
