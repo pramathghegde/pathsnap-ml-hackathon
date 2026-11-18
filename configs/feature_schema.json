@@ -1,0 +1,69 @@
+{
+  "features": [
+    "perp_dist",
+    "proj_ratio",
+    "delta_heading",
+    "arc_length",
+    "gps_speed",
+    "speed_ratio",
+    "traversal_rate",
+    "candidate_rank",
+    "is_adjacent"
+  ],
+  "feature_specifications": {
+    "perp_dist": {
+      "unit": "meters",
+      "type": "float64",
+      "description": "Perpendicular orthogonal distance from GPS observation to candidate road segment."
+    },
+    "proj_ratio": {
+      "unit": "dimensionless (ratio in [0, 1])",
+      "type": "float64",
+      "description": "Scalar u indicating position of orthogonal projection along segment length."
+    },
+    "delta_heading": {
+      "unit": "radians (angle in [0, pi])",
+      "type": "float64",
+      "description": "Minimal absolute angular difference between GPS velocity heading vector and arc orientation vector."
+    },
+    "arc_length": {
+      "unit": "meters",
+      "type": "float64",
+      "description": "Physical metric length of candidate road segment."
+    },
+    "gps_speed": {
+      "unit": "meters/second (m/s)",
+      "type": "float64",
+      "description": "Estimated instantaneous speed between consecutive GPS pings."
+    },
+    "speed_ratio": {
+      "unit": "dimensionless (ratio)",
+      "type": "float64",
+      "description": "Ratio of inferred GPS speed to reference urban speed v_ref = 13.8889 m/s (50 km/h)."
+    },
+    "traversal_rate": {
+      "unit": "s^-1 (inverse seconds)",
+      "type": "float64",
+      "description": "Segment traversal frequency defined as gps_speed / max(1.0, arc_length)."
+    },
+    "candidate_rank": {
+      "unit": "ordinal integer (1, 2, ...)",
+      "type": "int64",
+      "description": "Spatial proximity rank of candidate among retrieved arcs ordered by perp_dist."
+    },
+    "is_adjacent": {
+      "unit": "binary {0, 1}",
+      "type": "int64",
+      "description": "Indicator whether candidate shares a vertex with any top candidate from previous step t-1."
+    }
+  },
+  "target": "is_match",
+  "target_description": "1 if candidate arc corresponds to the ground-truth reference segment, 0 otherwise.",
+  "training_filter_column": "is_training_eligible",
+  "training_filter_rule": "Filter to is_training_eligible == 1 for binary classifier training to avoid all-negative choice sets.",
+  "group_column": "trip_id",
+  "fold_column": "fold",
+  "n_splits": 5,
+  "spatial_radius_m": 50.0,
+  "max_candidates_per_obs": 10
+}
