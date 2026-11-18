@@ -1,0 +1,63 @@
+{
+  "model_name": "HistGradientBoostingClassifier",
+  "version": "1.0.0",
+  "description": "Production candidate emission scoring model for PathSnap map matching.",
+  "feature_names": [
+    "perp_dist",
+    "proj_ratio",
+    "delta_heading",
+    "arc_length",
+    "gps_speed",
+    "speed_ratio",
+    "traversal_rate",
+    "candidate_rank",
+    "is_adjacent"
+  ],
+  "classes": [
+    0,
+    1
+  ],
+  "positive_class": 1,
+  "selected_hyperparameters": {
+    "learning_rate": 0.04228762725326872,
+    "max_iter": 400,
+    "max_leaf_nodes": 46,
+    "max_depth": null,
+    "min_samples_leaf": 28,
+    "l2_regularization": 0.3142918568673425,
+    "max_bins": 186
+  },
+  "best_optuna_trial": 6,
+  "training_dataset": "data/processed/train_features.csv",
+  "training_dataset_sha256": "4b69908baaccdd1731acde8d789df265a66aff7f4c3110ff643e42e430f7ff90",
+  "training_filter": "is_training_eligible == 1",
+  "num_training_samples": 1423994,
+  "num_positive_samples": 183062,
+  "num_negative_samples": 1240932,
+  "training_timestamp_utc": "2026-11-18T08:57:40.853199+00:00",
+  "training_duration_seconds": 27.9813047000207,
+  "random_seed": 42,
+  "sklearn_version": "1.9.0",
+  "cross_validation_metrics": {
+    "eligible_top1_accuracy_mean": 0.8038717779856335,
+    "eligible_top1_accuracy_std": 0.037901067985595,
+    "overall_top1_accuracy_mean": 0.7223850884255383,
+    "overall_top1_accuracy_std": 0.12116554691750349,
+    "candidate_generation_recall_mean": 0.8953490373331423,
+    "candidate_macro_f1_mean": 0.869332191638914,
+    "candidate_log_loss_mean": 0.12812623832694284,
+    "pooled_eligible_top1_accuracy": 0.8020397460969507,
+    "pooled_overall_top1_accuracy": 0.7050527266091701,
+    "inference_latency_ms_per_observation": 0.0640542183062469
+  },
+  "baseline_comparison": {
+    "baseline_mean_eligible_top1": 0.8009855001032153,
+    "tuned_mean_eligible_top1": 0.8038717779856335,
+    "baseline_pooled_eligible_top1": 0.7994449967770482,
+    "tuned_pooled_eligible_top1": 0.8020397460969506,
+    "baseline_macro_f1": 0.8679160621084423,
+    "tuned_macro_f1": 0.869332191638914,
+    "baseline_log_loss": 0.13160988072589658,
+    "tuned_log_loss": 0.12812623832694284
+  }
+}
