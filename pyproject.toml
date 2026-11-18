@@ -1,0 +1,99 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathsnap"
+version = "0.1.0"
+description = "PathSnap: Distributed Map Matching and GPS Trajectory Reconstruction for PES University ML Hackathon"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "PES University UE24CS352A Hackathon Team" }
+]
+maintainers = [
+    { name = "PES University UE24CS352A Hackathon Team" }
+]
+keywords = [
+    "machine-learning",
+    "map-matching",
+    "gps-trajectory-reconstruction",
+    "hidden-markov-model",
+    "viterbi-algorithm",
+    "fastapi",
+    "folium",
+    "geospatial-ai"
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent"
+]
+
+# Core project dependencies (to be finalized and version-pinned during implementation)
+dependencies = [
+    # Placeholder: Core dependencies will be pinned in requirements.txt
+    # once team baseline environment is resolved.
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "black",
+    "ruff",
+    "mypy"
+]
+api = [
+    "fastapi",
+    "uvicorn",
+    "pydantic"
+]
+ui = [
+    "streamlit",
+    "folium"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "api*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-ra -q --strict-markers"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+  | artifacts
+  | data
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+exclude = [
+    ".git",
+    ".venv",
+    "artifacts",
+    "data"
+]

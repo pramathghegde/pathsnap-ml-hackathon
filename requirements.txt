@@ -1,0 +1,48 @@
+# ==============================================================================
+# PathSnap - Project Dependencies Placeholder
+# ==============================================================================
+# NOTICE: This file is an initial scaffolding placeholder.
+# In accordance with project setup rules, specific pinned package versions
+# will be populated and locked during the implementation phase after the team
+# baseline environment and cross-platform compatibility are established.
+#
+# DO NOT install arbitrary unpinned packages without team alignment.
+#
+# Planned Core Dependency Categories:
+# ------------------------------------------------------------------------------
+# 1. Scientific Computing & Data Processing:
+#    - numpy
+#    - pandas
+#    - scipy
+#
+# 2. Spatial Analysis & Graph Processing:
+#    - shapely
+#    - pyproj
+#    - networkx
+#    - rtree
+#
+# 3. Machine Learning Algorithms (at least 5 distinct model families):
+#    - scikit-learn
+#    - xgboost
+#    - lightgbm
+#    - catboost
+#
+# 4. Bayesian Hyperparameter Optimization:
+#    - optuna
+#
+# 5. Distributed Backend Serving (FastAPI - Laptop 1):
+#    - fastapi
+#    - uvicorn
+#    - pydantic
+#    - requests
+#
+# 6. Evaluator-Facing UI & Geospatial Visualization (Laptop 2):
+#    - streamlit
+#    - folium
+#    - jinja2
+#
+# 7. Quality Assurance, Testing & Experimentation:
+#    - pytest
+#    - pytest-cov
+#    - python-dotenv
+# ==============================================================================

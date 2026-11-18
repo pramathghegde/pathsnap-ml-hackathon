@@ -1,0 +1,158 @@
+# ==============================================================================
+# PathSnap - Git Ignore Configuration
+# ==============================================================================
+
+# --- Python Environment & Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual Environments ---
+venv/
+.venv/
+env/
+.env_*/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Environment Variables & Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+secrets/
+credentials.json
+
+# --- Datasets & Spatial Data (Do NOT commit data to Git) ---
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/evaluator/*
+!data/evaluator/.gitkeep
+data/external/*
+!data/external/.gitkeep
+
+# Explicit dataset extensions
+*.track
+*.arcs
+*.nodes
+*.route
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.geojson
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+
+# --- Evaluator Ground-Truth Data Protection ---
+*evaluator*
+!docs/*evaluator*
+*ground_truth*
+*_reference_routes.*
+
+# --- Large Model Artifacts & Checkpoints ---
+artifacts/*.pkl
+artifacts/*.joblib
+artifacts/*.onnx
+artifacts/*.pt
+artifacts/*.pth
+artifacts/*.bin
+artifacts/*.model
+artifacts/*.h5
+!artifacts/.gitkeep
+
+# --- Experiment Outputs, Logs & Optimization Results ---
+experiments/logs/*
+!experiments/logs/.gitkeep
+experiments/results/*
+!experiments/results/.gitkeep
+experiments/optimization/*
+!experiments/optimization/.gitkeep
+*.log
+optuna_study.db
+optuna_study.db-journal
+
+# --- Jupyter Notebook Checkpoints & Cache ---
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+.virtual_documents/
+
+# --- Testing, Coverage & Profiling ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+coverage.xml
+*.cover
+nosetests.xml
+profile/
+.tox/
+.nox/
+
+# --- Static Analysis, Linters & Formatters ---
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.dmypy.json
+dmypy.json
+
+# --- IDEs and Text Editors ---
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.directory
+
+# --- Operating System Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# --- Temporary Files & Reports ---
+*.tmp
+*.bak
+*.old
+reports/*.html
+reports/*.pdf
+!reports/.gitkeep
+ui/.streamlit/secrets.toml
