@@ -235,3 +235,124 @@ def test_unseen_validation_classes_handled():
     # Accuracy and macro F1 should still be computed
     assert not np.isnan(agg["accuracy_mean"])
     assert not np.isnan(agg["macro_f1_mean"])
+
+
+def test_metadata_columns_excluded_from_automatic_feature_inference():
+    """
+    Verify that all metadata and audit columns are excluded from automatic feature inference:
+    - observation_id
+    - has_positive_candidate
+    - is_training_eligible
+    - fold
+    - point_idx, candidate_arc_id, timestamp, trip_id, target
+    And verify that the nine intended predictive features are selected.
+    """
+    n_samples = 60
+    intended_features = [
+        "perp_dist",
+        "proj_ratio",
+        "delta_heading",
+        "arc_length",
+        "gps_speed",
+        "speed_ratio",
+        "traversal_rate",
+        "candidate_rank",
+        "is_adjacent",
+    ]
+
+    data = {f: np.random.randn(n_samples) for f in intended_features}
+    # Add metadata and audit columns
+    data["trip_id"] = [f"trip_{i % 6:03d}" for i in range(n_samples)]
+    data["observation_id"] = np.arange(n_samples)
+    data["point_idx"] = np.arange(n_samples)
+    data["candidate_arc_id"] = np.random.randint(1, 1000, size=n_samples)
+    data["timestamp"] = np.linspace(1.0, 60.0, n_samples)
+    data["has_positive_candidate"] = np.random.choice([0, 1], size=n_samples)
+    data["is_training_eligible"] = data["has_positive_candidate"]
+    data["fold"] = np.random.choice(range(5), size=n_samples)
+    data["is_match"] = np.random.choice([0, 1], size=n_samples)
+
+    df = pd.DataFrame(data)
+
+    resolved = validate_training_inputs(
+        df=df,
+        target_col="is_match",
+        group_col="trip_id",
+        feature_cols=None,
+    )
+
+    # 1. Verify specific metadata columns are strictly excluded
+    assert "observation_id" not in resolved
+    assert "has_positive_candidate" not in resolved
+    assert "is_training_eligible" not in resolved
+    assert "fold" not in resolved
+    assert "point_idx" not in resolved
+    assert "candidate_arc_id" not in resolved
+    assert "timestamp" not in resolved
+    assert "trip_id" not in resolved
+    assert "is_match" not in resolved
+
+    # 2. Verify all nine intended predictive features are present and matched
+    assert sorted(resolved) == sorted(intended_features)
+
+
+def test_explicit_feature_cols_selection():
+    """Verify that explicitly supplied feature_cols continues to work and takes precedence."""
+    n_samples = 50
+    df = pd.DataFrame(
+        {
+            "trip_id": [f"trip_{i % 5:03d}" for i in range(n_samples)],
+            "is_match": np.random.choice([0, 1], size=n_samples),
+            "observation_id": np.arange(n_samples),
+            "fold": np.random.choice(range(5), size=n_samples),
+            "perp_dist": np.random.randn(n_samples),
+            "delta_heading": np.random.randn(n_samples),
+            "unused_col": np.random.randn(n_samples),
+        }
+    )
+
+    explicit_features = ["perp_dist", "delta_heading"]
+    resolved = validate_training_inputs(
+        df=df,
+        target_col="is_match",
+        group_col="trip_id",
+        feature_cols=explicit_features,
+    )
+
+    assert resolved == explicit_features
+
+
+def test_training_pipeline_auto_feature_inference_end_to_end():
+    """Verify end-to-end training pipeline preserves metadata exclusion during full refit."""
+    n_samples = 60
+    df = pd.DataFrame(
+        {
+            "trip_id": [f"trip_{i % 6:03d}" for i in range(n_samples)],
+            "is_match": np.random.choice([0, 1], size=n_samples),
+            "observation_id": np.arange(n_samples),
+            "has_positive_candidate": np.ones(n_samples, dtype=int),
+            "is_training_eligible": np.ones(n_samples, dtype=int),
+            "fold": np.random.choice(range(5), size=n_samples),
+            "perp_dist": np.random.randn(n_samples),
+            "proj_ratio": np.random.uniform(0, 1, size=n_samples),
+            "delta_heading": np.random.uniform(0, np.pi, size=n_samples),
+        }
+    )
+
+    res = run_training_pipeline(
+        df=df,
+        target_col="is_match",
+        group_col="trip_id",
+        feature_cols=None,  # Rely on automatic feature inference
+        n_splits=3,
+        selected_models=["Decision Tree"],
+        refit_final=True,
+        save_artifacts=False,
+    )
+
+    meta_features = res["final_metadata"]["feature_names"]
+    assert "observation_id" not in meta_features
+    assert "has_positive_candidate" not in meta_features
+    assert "is_training_eligible" not in meta_features
+    assert "fold" not in meta_features
+    assert sorted(meta_features) == ["delta_heading", "perp_dist", "proj_ratio"]

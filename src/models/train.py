@@ -37,6 +37,17 @@ from src.models.model_factory import (
 )
 
 
+DEFAULT_METADATA_COLS = {
+    "point_idx",
+    "observation_id",
+    "candidate_arc_id",
+    "timestamp",
+    "has_positive_candidate",
+    "is_training_eligible",
+    "fold",
+}
+
+
 def _compute_dataset_hash(df: pd.DataFrame) -> str:
     """Compute deterministic SHA-256 hash of a pandas DataFrame."""
     return hashlib.sha256(
@@ -117,7 +128,7 @@ def validate_training_inputs(
 
     # Resolve and validate feature columns
     if feature_cols is None:
-        metadata_cols = {group_col, target_col, "point_idx", "candidate_arc_id", "timestamp"}
+        metadata_cols = {group_col, target_col} | DEFAULT_METADATA_COLS
         resolved_features = [col for col in df.columns if col not in metadata_cols]
     else:
         missing_features = [col for col in feature_cols if col not in df.columns]

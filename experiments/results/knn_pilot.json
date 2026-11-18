@@ -1,0 +1,95 @@
+{
+  "pilot_metadata": {
+    "description": "PathSnap KNN Computational Feasibility Pilot",
+    "execution_timestamp": "2026-11-18T07:34:47Z",
+    "num_selected_trips": 12,
+    "selected_trips": [
+      "00000001",
+      "00000005",
+      "00000013",
+      "00000016",
+      "00000024",
+      "00000028",
+      "00000035",
+      "00000037",
+      "00000038",
+      "00000041",
+      "00000061",
+      "00000088"
+    ],
+    "num_sampled_observations": 1711,
+    "num_candidate_rows": 14573,
+    "sampling_rate_per_trip": 0.1,
+    "random_seed": 42,
+    "n_splits": 3,
+    "features": [
+      "perp_dist",
+      "proj_ratio",
+      "delta_heading",
+      "arc_length",
+      "gps_speed",
+      "speed_ratio",
+      "traversal_rate",
+      "candidate_rank",
+      "is_adjacent"
+    ],
+    "target": "is_match",
+    "wall_clock_time_sec": 3.41,
+    "feasibility_note": "Pilot on ~14.6k rows to measure computational scaling; not directly comparable to 1.42M row benchmarks."
+  },
+  "aggregate_metrics": {
+    "total_folds": 3,
+    "accuracy_mean": 0.9502946046219667,
+    "accuracy_std": 0.006898909312699503,
+    "macro_f1_mean": 0.8767381019442079,
+    "macro_f1_std": 0.024139908061741433,
+    "train_time_sec_mean": 0.019692599999568,
+    "train_time_sec_std": 0.006977988709883727,
+    "inference_time_sec_mean": 0.0951066333327617,
+    "inference_time_sec_std": 0.005047532336606254,
+    "inference_latency_ms_per_sample_mean": 0.019580953533389244,
+    "inference_latency_ms_per_sample_std": 0.0009501098193709304,
+    "log_loss_valid_folds": 3,
+    "log_loss_total_folds": 3,
+    "log_loss_invalid_folds": 0,
+    "log_loss_mean": 0.640034958439932,
+    "log_loss_std": 0.15821715997528088,
+    "log_loss_status": "ALL_FOLDS_VALID",
+    "log_loss_invalid_reasons": []
+  },
+  "fold_metrics": [
+    {
+      "accuracy": 0.9484346224677717,
+      "macro_f1": 0.88597084466041,
+      "log_loss": 0.6449178399148248,
+      "inference_time_sec": 0.08914409999852069,
+      "inference_latency_ms_per_sample": 0.018241068139660463,
+      "log_loss_valid": true,
+      "log_loss_note": null,
+      "fold": 1,
+      "train_time_sec": 0.02955660000043281
+    },
+    {
+      "accuracy": 0.9595190380761524,
+      "macro_f1": 0.9005852175175478,
+      "log_loss": 0.44386400867677717,
+      "inference_time_sec": 0.10148680000020249,
+      "inference_latency_ms_per_sample": 0.02033803607218487,
+      "log_loss_valid": true,
+      "log_loss_note": null,
+      "fold": 2,
+      "train_time_sec": 0.015014799999335082
+    },
+    {
+      "accuracy": 0.9429301533219762,
+      "macro_f1": 0.843658243654666,
+      "log_loss": 0.831323026728194,
+      "inference_time_sec": 0.09468899999956193,
+      "inference_latency_ms_per_sample": 0.02016375638832239,
+      "log_loss_valid": true,
+      "log_loss_note": null,
+      "fold": 3,
+      "train_time_sec": 0.014506399998936104
+    }
+  ]
+}
