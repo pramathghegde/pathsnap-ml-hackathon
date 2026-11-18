@@ -1,0 +1,2 @@
+model_name,pilot_scale,num_trips,num_observations,num_candidate_rows,n_splits,macro_f1_mean,macro_f1_std,accuracy_mean,accuracy_std,log_loss_mean,log_loss_std,train_time_sec_mean,train_time_sec_std,inference_time_sec_mean,inference_time_sec_std,inference_latency_ms_per_sample_mean,wall_clock_time_sec
+KNN,12_trips_10pct_obs,12,1711,14573,3,0.8767381019442079,0.024139908061741433,0.9502946046219667,0.006898909312699503,0.640034958439932,0.15821715997528088,0.019692599999568,0.006977988709883727,0.0951066333327617,0.005047532336606254,0.019580953533389244,3.41
