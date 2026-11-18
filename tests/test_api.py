@@ -25,15 +25,23 @@ def test_prediction_endpoint():
         json={"trip_id": "00000000"}
     )
 
-    assert response.status_code == 200
-    assert response.json()["status"] == "not_ready"
-    assert response.json()["trip_id"] == "00000000"
+    assert response.status_code == 503
+    assert response.json()["detail"] == (
+        "Prediction engine is currently unavailable. Model integration is pending."
+    )
 
 
 def test_prediction_invalid_request():
     response = client.post(
         "/api/v1/predict",
         json={}
+    )
+
+    assert response.status_code == 422
+def test_prediction_invalid_trip_id():
+    response = client.post(
+        "/api/v1/predict",
+        json={"trip_id": "abc123"}
     )
 
     assert response.status_code == 422

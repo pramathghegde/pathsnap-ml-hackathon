@@ -2,6 +2,7 @@ import folium
 import streamlit.components.v1 as components
 import streamlit as st
 import requests
+import os
 
 # Page configuration
 st.set_page_config(
@@ -11,7 +12,9 @@ st.set_page_config(
 )
 
 # Backend configuration
-API_URL = "http://127.0.0.1:8000"
+
+
+API_URL = os.getenv("PATHSNAP_API_URL", "http://127.0.0.1:8000")
 
 # Page heading
 st.title("🗺️ PathSnap")

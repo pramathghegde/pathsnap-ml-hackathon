@@ -1,7 +1,24 @@
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
 from datetime import datetime
+import logging
+from pathlib import Path
+
+# Configure API logging
+LOG_DIR = Path("logs")
+LOG_DIR.mkdir(exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_DIR / "api.log", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger("pathsnap")
 
 app = FastAPI(
     title="PathSnap API",
@@ -16,7 +33,10 @@ class HealthResponse(BaseModel):
 
 
 class PredictionRequest(BaseModel):
-    trip_id: str
+    trip_id: str = Field(
+        pattern=r"^\d{8}$",
+        description="Trip ID must contain exactly 8 digits"
+    )
 
 
 @app.get("/", response_model=HealthResponse)
@@ -29,6 +49,7 @@ def home():
 
 @app.get("/health")
 def health_check():
+    logger.info("Health check endpoint accessed")
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat()
@@ -37,11 +58,32 @@ def health_check():
 
 @app.post("/api/v1/predict")
 def predict_route(request: PredictionRequest):
-    # Actual model and HMM integration will be added
-    # when the other team members provide their components.
+    try:
+        logger.info(
+            "Prediction request received for trip_id=%s",
+            request.trip_id
+        )
 
-    return {
-        "status": "not_ready",
-        "trip_id": request.trip_id,
-        "message": "Prediction engine is awaiting model integration."
-    }
+        # Actual model and HMM integration will be added later.
+        logger.warning(
+            "Prediction engine is not ready for trip_id=%s",
+            request.trip_id
+        )
+
+        raise HTTPException(
+            status_code=503,
+            detail="Prediction engine is currently unavailable. Model integration is pending."
+        )
+
+    except HTTPException:
+        raise
+
+    except Exception:
+        logger.exception(
+            "Unexpected error while processing trip_id=%s",
+            request.trip_id
+        )
+        raise HTTPException(
+            status_code=500,
+            detail="An internal server error occurred."
+        )
